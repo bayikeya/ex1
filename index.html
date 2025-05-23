@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>カメラ背景デモ</title>
+  <title>アウトカメラ背景</title>
   <style>
     body, html {
       margin: 0;
@@ -19,7 +19,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      z-index: -1; /* 背景に */
+      z-index: -1;
     }
 
     .content {
@@ -34,18 +34,21 @@
 </head>
 <body>
   <video id="camera-bg" autoplay muted playsinline></video>
-  <div class="content">こんにちは、カメラ背景のWebサイト！</div>
+  <div class="content">アウトカメラ背景のWebサイト！</div>
 
   <script>
     const video = document.getElementById('camera-bg');
 
-    navigator.mediaDevices.getUserMedia({ video: true, audio: false })
-      .then(stream => {
-        video.srcObject = stream;
-      })
-      .catch(err => {
-        console.error('カメラにアクセスできません:', err);
-      });
+    navigator.mediaDevices.getUserMedia({
+      video: { facingMode: { exact: "environment" } }, // 背面カメラ指定
+      audio: false
+    })
+    .then(stream => {
+      video.srcObject = stream;
+    })
+    .catch(err => {
+      console.error('カメラにアクセスできません:', err);
+    });
   </script>
 </body>
 </html>
